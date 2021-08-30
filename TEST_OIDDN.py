@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from skimage.metrics import peak_signal_noise_ratio
 from skimage.metrics import structural_similarity
-from OIDN_def import OIDN
+from OIDDN_def import OIDDN
 
 parser = ArgumentParser(description='OPINE-Net-plus')
 
@@ -71,7 +71,7 @@ nrtrain = 88912
 batch_size = 64
 
 
-model = OPINENetplus(layer_num, M,block_size)
+model = OIDDN(layer_num, M,block_size)
 model = nn.DataParallel(model)
 model = model.to(device)
 
