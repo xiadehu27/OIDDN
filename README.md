@@ -31,7 +31,7 @@ python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_ra
 ```
 OIDN模型测试
 ```
-传入不同的 cs_ratio 和 test_name 来测试不同的采样率和测试图片集
+将测试集目录放入data文件夹下，支持bmp,png和jpg三种格式，传入不同的 cs_ratio 和 test_name 来测试不同的采样率和测试图片集
 ```
 python Test_OIDN.py --layer_num 9 --cs_ratio 1 --test_name Set5
 python Test_OIDN.py --layer_num 9 --cs_ratio 5 --test_name Set5
