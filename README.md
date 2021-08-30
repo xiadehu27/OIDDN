@@ -5,12 +5,12 @@ OIDDN
 ```
 环境依赖
 ```
-pytorch 1.9.0
-scipy 1.6.2
-numpy 1.20.2
-python 3.8.10
-matplotlib 3.3.4
-h5py 2.10.0
+pytorch 1.9.0<br>
+scipy 1.6.2<br>
+numpy 1.20.2<br>
+python 3.8.10<br>
+matplotlib 3.3.4<br>
+h5py 2.10.0<br>
 ```
 生成样本数据
 ```
