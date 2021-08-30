@@ -16,29 +16,56 @@ h5py 2.10.0
 ```
 原始训练图像数据来自 [BSD-500](https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/bsds/)，将其放入data目录，使用python 执行 CSDataSetBuilderWithChannelFirst.py，可生成训练数据集。
 ```
-训练模型
+训练OIDN模型
 ```
 ```
-python Train.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 1
-python Train.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 5
-python Train.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 10
-python Train.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 20
-python Train.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 25
-python Train.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 30
-python Train.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 40
-python Train.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 50
+python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 1
+python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 5
+python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 10
+python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 20
+python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 25
+python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 30
+python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 40
+python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 50
 ```
 ```
-模型测试
+OIDN模型测试
 ```
-传入 cs_ratio 和 test_name 用来测试不同的采样率和测试图片集
+传入不同的 cs_ratio 和 test_name 来测试不同的采样率和测试图片集
 ```
-python Test.py --layer_num 9 --cs_ratio 1 --test_name Set5
-python Test.py --layer_num 9 --cs_ratio 5 --test_name Set5
-python Test.py --layer_num 9 --cs_ratio 10 --test_name Set5
-python Test.py --layer_num 9 --cs_ratio 20 --test_name Set5
-python Test.py --layer_num 9 --cs_ratio 25 --test_name Set5
-python Test.py --layer_num 9 --cs_ratio 30 --test_name Set5
-python Test.py --layer_num 9 --cs_ratio 40 --test_name Set5
-python Test.py --layer_num 9 --cs_ratio 50 --test_name Set5
+python Test_OIDN.py --layer_num 9 --cs_ratio 1 --test_name Set5
+python Test_OIDN.py --layer_num 9 --cs_ratio 5 --test_name Set5
+python Test_OIDN.py --layer_num 9 --cs_ratio 10 --test_name Set5
+python Test_OIDN.py --layer_num 9 --cs_ratio 20 --test_name Set5
+python Test_OIDN.py --layer_num 9 --cs_ratio 25 --test_name Set5
+python Test_OIDN.py --layer_num 9 --cs_ratio 30 --test_name Set5
+python Test_OIDN.py --layer_num 9 --cs_ratio 40 --test_name Set5
+python Test_OIDN.py --layer_num 9 --cs_ratio 50 --test_name Set5
+```
+```
+训练OIDNN模型
+```
+```
+python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 1
+python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 5
+python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 10
+python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 20
+python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 25
+python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 30
+python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 40
+python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 50
+```
+```
+OIDNN模型测试
+```
+传入不同的 cs_ratio 和 test_name 来测试不同的采样率和测试图片集
+```
+python Test_OIDNN.py --layer_num 9 --cs_ratio 1 --test_name Set5
+python Test_OIDNN.py --layer_num 9 --cs_ratio 5 --test_name Set5
+python Test_OIDNN.py --layer_num 9 --cs_ratio 10 --test_name Set5
+python Test_OIDNN.py --layer_num 9 --cs_ratio 20 --test_name Set5
+python Test_OIDNN.py --layer_num 9 --cs_ratio 25 --test_name Set5
+python Test_OIDNN.py --layer_num 9 --cs_ratio 30 --test_name Set5
+python Test_OIDNN.py --layer_num 9 --cs_ratio 40 --test_name Set5
+python Test_OIDNN.py --layer_num 9 --cs_ratio 50 --test_name Set5
 ```
