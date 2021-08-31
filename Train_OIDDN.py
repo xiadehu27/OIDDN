@@ -93,7 +93,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 model_dir = "./%s/%s_layer_%d_group_%d_ratio_%d" % (args.model_dir,net_name,layer_num, group_num, cs_ratio)
 
-log_file_name = "./%s/Log_CS_OPINE_Net_plus_layer_%d_group_%d_ratio_%d.txt" % (args.log_dir, layer_num, group_num, cs_ratio)
+log_file_name = "./%s/Log_OIDNN_layer_%d_group_%d_ratio_%d.txt" % (args.log_dir, layer_num, group_num, cs_ratio)
 
 if not os.path.exists(model_dir):
     os.makedirs(model_dir)

@@ -1,0 +1,1 @@
+[01/200] Discrepancy Loss: 0.00204777, Symmetry Loss: 0.04693089, Orth Loss: 0.00981269, time: 0.0930
