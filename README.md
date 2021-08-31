@@ -1,9 +1,9 @@
 ```
 OIDDN
 ```
-图像压缩感知重建方法主要分为传统优化算法和深度学习方法，后者因运算速度快、重建质量好更受人们青睐。然而，当前基于深度学习的重建方法大多面向灰度图像进行设计，此类方法在用于彩色图像压缩感知时，通常采用相同的采样矩阵逐通道采样及重建，未考虑通道间的强相关性因此重建结果不理想。极少数针对彩色图像压缩感知设计的深度学习模型因为基于纯数据驱动设计故而缺乏可解释性，并存在性能瓶颈。本文设计了一种应用于彩色图像压缩感知的基于启发优化的深度网络OIDDN，采用三通道独立采样并联合训练；重建时将FISTA算法迭代求解步骤严格对应到每一阶段的重建网络模块；另外模型加入了自适应扩张卷积模块，进而增加网络多尺度动态感知能力。实验结果表明，本文所提方法相对现有图像压缩感知深度学习模型在公开数据集对比中重建性能有了大幅提升。
+Image compressive sensing reconstruction methods are mainly divided into traditional optimization algorithms and deep learning methods, and the latter is more popular because of its fast computing speed and good reconstruction quality. However, most of the current deep learning-based reconstruction methods are designed for grayscale images, and when these methods are used for color image compression and perception, they usually use the same sampling matrix for channel-by-channel sampling and reconstruction without considering the strong correlation between channels, so the reconstruction results are not ideal. Few deep learning models designed for color image compression and perception lack interpretability and have performance bottlenecks because they are based on purely data-driven design. In this paper, we design a deep network OIDDN based on heuristic optimization for color image compression perception, using three channels independently sampled and jointly trained; the iterative solution steps of FISTA algorithm are strictly corresponded to each stage of the reconstructed network module during reconstruction; in addition, the model adds an adaptive expansion convolution module to increase the multi-scale dynamic perception capability of the network. The experimental results show that the proposed method has significantly improved the reconstruction performance in comparison with existing deep learning models for image compression perception in public datasets.
 ```
-环境依赖
+Software Dependencies
 ```
 pytorch 1.9.0<br>
 scipy 1.6.2<br>
@@ -12,11 +12,11 @@ python 3.8.10<br>
 matplotlib 3.3.4<br>
 h5py 2.10.0<br>
 ```
-生成样本数据
+Generate sample data
 ```
-原始训练图像数据来自 [BSD-500](https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/bsds/)，将其放入data目录，使用python 执行 CSDataSetBuilderWithChannelFirst.py，可生成训练数据集。
+Raw training image data comes from [BSD-500](https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/bsds/)，Put it in the data directory and use python to execute CSDataSetBuilderWithChannelFirst.py，Training data sets can be generated。
 ```
-训练OIDN模型
+Training the OIDN model
 ```
 ```
 python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 1
@@ -29,9 +29,9 @@ python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_ra
 python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 50
 ```
 ```
-OIDN模型测试
+OIDN Model Testing
 ```
-将测试集目录放入data文件夹下，支持bmp,png和jpg三种格式，传入不同的 cs_ratio 和 test_name 来测试不同的采样率和测试图片集
+Put the test set directory into the data folder, support bmp,png and jpg formats, pass in different cs_ratio and test_name to test different sample rates and test image sets
 ```
 python Test_OIDN.py --layer_num 9 --cs_ratio 1 --test_name Set5
 python Test_OIDN.py --layer_num 9 --cs_ratio 5 --test_name Set5
@@ -43,7 +43,7 @@ python Test_OIDN.py --layer_num 9 --cs_ratio 40 --test_name Set5
 python Test_OIDN.py --layer_num 9 --cs_ratio 50 --test_name Set5
 ```
 ```
-训练OIDNN模型
+Training the OIDNN model
 ```
 ```
 python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 1
@@ -56,9 +56,9 @@ python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_r
 python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 50
 ```
 ```
-OIDNN模型测试
+OIDNN model testing
 ```
-传入不同的 cs_ratio 和 test_name 来测试不同的采样率和测试图片集
+Pass in different cs_ratio and test_name to test different sample rates and test image sets
 ```
 python Test_OIDNN.py --layer_num 9 --cs_ratio 1 --test_name Set5
 python Test_OIDNN.py --layer_num 9 --cs_ratio 5 --test_name Set5
