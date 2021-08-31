@@ -75,4 +75,4 @@ python Test_OIDDN.py --layer_num 9 --cs_ratio 50 --test_name Set5
 ```
 Statement
 ```
-This project is my master's research results, supervised by [Jian Zhang](), now we are opening the source code for scholars to share, and inevitably there will be mistakes, welcome to correct by email.
+This project is my master's research results, supervised by [Jian Zhang](https://github.com/jianzhangcs), now we are opening the source code for scholars to share, and inevitably there will be mistakes, welcome to correct by email.
