@@ -1,5 +1,5 @@
 ```
-OIDDN
+Optimization-Inspired Dilated Deep Network for Compressive Sensing of Color Images
 ```
 Image compressive sensing reconstruction methods are mainly divided into traditional optimization algorithms and deep learning methods, and the latter is more popular because of its fast computing speed and good reconstruction quality. However, most of the current deep learning-based reconstruction methods are designed for grayscale images, and when these methods are used for color image compression and perception, they usually use the same sampling matrix for channel-by-channel sampling and reconstruction without considering the strong correlation between channels, so the reconstruction results are not ideal. Few deep learning models designed for color image compression and perception lack interpretability and have performance bottlenecks because they are based on purely data-driven design. In this paper, we design a deep network OIDDN based on heuristic optimization for color image compression perception, using three channels independently sampled and jointly trained; the iterative solution steps of FISTA algorithm are strictly corresponded to each stage of the reconstructed network module during reconstruction; in addition, the model adds an adaptive expansion convolution module to increase the multi-scale dynamic perception capability of the network. The experimental results show that the proposed method has significantly improved the reconstruction performance in comparison with existing deep learning models for image compression perception in public datasets.
 ```
@@ -72,3 +72,7 @@ python Test_OIDDN.py --layer_num 9 --cs_ratio 30 --test_name Set5
 python Test_OIDDN.py --layer_num 9 --cs_ratio 40 --test_name Set5
 python Test_OIDDN.py --layer_num 9 --cs_ratio 50 --test_name Set5
 ```
+```
+Statement
+```
+This project is my master's research results, supervised by [Jian Zhang](), now we are opening the source code for scholars to share, and inevitably there will be mistakes, welcome to correct by email.
