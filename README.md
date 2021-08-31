@@ -43,29 +43,29 @@ python Test_OIDN.py --layer_num 9 --cs_ratio 40 --test_name Set5
 python Test_OIDN.py --layer_num 9 --cs_ratio 50 --test_name Set5
 ```
 ```
-Training the OIDNN model
+Training the OIDDN model
 ```
 ```
-python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 1
-python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 5
-python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 10
-python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 20
-python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 25
-python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 30
-python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 40
-python Train_OIDNN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 50
+python Train_OIDDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 1
+python Train_OIDDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 5
+python Train_OIDDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 10
+python Train_OIDDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 20
+python Train_OIDDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 25
+python Train_OIDDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 30
+python Train_OIDDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 40
+python Train_OIDDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 50
 ```
 ```
-OIDNN model testing
+OIDDN model testing
 ```
 Pass in different cs_ratio and test_name to test different sample rates and test image sets
 ```
-python Test_OIDNN.py --layer_num 9 --cs_ratio 1 --test_name Set5
-python Test_OIDNN.py --layer_num 9 --cs_ratio 5 --test_name Set5
-python Test_OIDNN.py --layer_num 9 --cs_ratio 10 --test_name Set5
-python Test_OIDNN.py --layer_num 9 --cs_ratio 20 --test_name Set5
-python Test_OIDNN.py --layer_num 9 --cs_ratio 25 --test_name Set5
-python Test_OIDNN.py --layer_num 9 --cs_ratio 30 --test_name Set5
-python Test_OIDNN.py --layer_num 9 --cs_ratio 40 --test_name Set5
-python Test_OIDNN.py --layer_num 9 --cs_ratio 50 --test_name Set5
+python Test_OIDDN.py --layer_num 9 --cs_ratio 1 --test_name Set5
+python Test_OIDDN.py --layer_num 9 --cs_ratio 5 --test_name Set5
+python Test_OIDDN.py --layer_num 9 --cs_ratio 10 --test_name Set5
+python Test_OIDDN.py --layer_num 9 --cs_ratio 20 --test_name Set5
+python Test_OIDDN.py --layer_num 9 --cs_ratio 25 --test_name Set5
+python Test_OIDDN.py --layer_num 9 --cs_ratio 30 --test_name Set5
+python Test_OIDDN.py --layer_num 9 --cs_ratio 40 --test_name Set5
+python Test_OIDDN.py --layer_num 9 --cs_ratio 50 --test_name Set5
 ```
