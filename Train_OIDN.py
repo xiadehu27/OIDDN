@@ -10,7 +10,7 @@ from torch.utils.data import Dataset, DataLoader
 import platform
 from argparse import ArgumentParser
 from DeephomographyDataset import DeephomographyDataset
-from OIDN_def import OIDN
+from OIDN_Def import OIDN
 import matplotlib.pyplot as plt
 
 parser = ArgumentParser(description='OIDN')
@@ -24,10 +24,11 @@ parser.add_argument('--gpu_list', type=str, default='0', help='gpu index')
 parser.add_argument('--block_size', type=str, default='33', help='basic block size of convolution')
 
 parser.add_argument('--model_dir', type=str, default='model', help='trained or pre-trained model directory')
-parser.add_argument('--data_dir', type=str, default='D:/code/nn/OPINE-Net-PyTorch-JSTSP2020/data', help='training data directory')
+parser.add_argument('--data_dir', type=str, default='data', help='training data directory')
 parser.add_argument('--log_dir', type=str, default='log', help='log directory')
 parser.add_argument('--save_interval', type=int, default=1, help='interval of saving model')
-parser.add_argument('--dataset_name', type=str, default='trainAll_33_rgb_10.h5', help='trained or pre-trained model name')
+# Please replace the training set with the corresponding one when executing
+parser.add_argument('--dataset_name', type=str, default='py_5_96_1440_cf.hdf5', help='trained or pre-trained model name')
 parser.add_argument('--net_name', type=str, default='OIDN', help='net name')
 
 
@@ -111,7 +112,7 @@ for epoch_i in range(start_epoch+1, end_epoch+1):
     for data in rand_loader:
 
         start = time()  
-        batch_x = data.to(device)
+        batch_x = data.to(device).float()
         
         [x_final, loss_layers_sym, phis] = model(batch_x)
        

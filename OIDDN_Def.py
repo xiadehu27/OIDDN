@@ -6,44 +6,102 @@ import scipy.io as sio
 import numpy as np
 import os
 
-# fista,with mergeScale,layer 9,with phi_scale
+# Optimization-Inspired Dilated Deep Network for Compressive Sensing of Color Images
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-class MySign(torch.autograd.Function):
-    @staticmethod
-    def forward(ctx, input):
-        output = input.new(input.size())
-        output[input >= 0] = 1
-        output[input < 0] = -1
-        return output
-
-    @staticmethod
-    def backward(ctx, grad_output):
-        grad_input = grad_output.clone()
-        return grad_input
-
-MyBinarize = MySign.apply      
-
 class ADConv(torch.nn.Module):
-    def __init__(self,channels,dilation):
+    def __init__(self,channels,dialtedTypes):
         super(ADConv, self).__init__()
 
         self.channels = channels
 
+        # Convolutional kernel library 32*32*3*3
         self.conv = nn.Parameter(init.xavier_normal_(torch.Tensor(channels, channels, 3, 3)))
+
+        # Three types of dialted convolution:1,2,3
+        self.dilatedConvType = dialtedTypes
         
-        self.dilation = dilation
-        self.halfChannel = int(self.channels*0.5)
+        # 32*3,Convolutional assignment parameters, dividing the 32 convolutions into three categories
+        self.dilatedPara = nn.Parameter(init.xavier_normal_(torch.Tensor(channels, self.dilatedConvType)))
+        self.softmax = nn.Softmax(dim=1)
 
-    def forward(self, data):
+        self.idxDilated = None
+        self.idxOffset = []
 
-        conv1 = self.conv[0:self.halfChannel,:,:,:]
-        conv2 = self.conv[self.halfChannel:self.channels,:,:,:]
+    def exeTrain(self, data):
+        # Output the assignment of the three types of convolution kernels by softmax
+        soft = self.softmax(self.dilatedPara)
 
-        return torch.cat((F.conv2d(data, conv1, padding=1,dilation=1)
-        ,F.conv2d(data, conv2, padding=self.dilation,dilation=self.dilation)),1)
+        _,indexs = torch.topk(soft,1)
+        indexs = indexs.view(self.channels) 
+
+        size = data.size() 
+        result = torch.zeros([size[0], 0,size[2],size[3]], dtype=torch.float,device=device)
+
+        # After convolving the three types of convolution kernels on the input, concat to output together
+        for i in range(self.dilatedConvType):
+
+            dilation = i + 1
+            idxDilate = (indexs==i).nonzero(as_tuple=False).view(-1)          
+            
+
+            if idxDilate.size()[0] > 0:          
+                conv = torch.index_select(self.conv,0,idxDilate)                   
+                
+                # To maintain the gradient on dilated paras, the result of the convolution is multiplied by the mean value of the corresponding value of dilated paras
+                mul = torch.mean(torch.index_select(self.dilatedPara,0,idxDilate)[:,i])+1                                  
+                result = torch.cat((result
+                                ,mul * F.conv2d(data, conv, padding=dilation,dilation=dilation)),1)  
+
+        return result 
+
+    def reference(self, data):
+        if self.idxDilated is None:
+
+            self.idxDilated = []
+
+            # Output the assignment of the three types of convolution kernels by softmax
+            soft = self.softmax(self.dilatedPara)
+
+            _,indexs = torch.topk(soft,1)
+            indexs = indexs.view(self.channels) 
+
+            # After convolving the three types of convolution kernels on the input, concat to output together
+            for i in range(self.dilatedConvType):
+
+                dilation = i + 1
+                idxDilate = (indexs==i).nonzero(as_tuple=True)[0]
+
+                self.idxDilated.append(idxDilate)
+                                
+        size = data.size() 
+        result = torch.zeros([size[0], 0,size[2],size[3]], dtype=torch.float,device=device)
+
+        # After convolving the three types of convolution kernels on the input, concat to output together
+        for i in range(self.dilatedConvType):
+
+            dilation = i + 1
+            idxDilate = self.idxDilated[i]          
+            
+
+            if idxDilate.size()[0] > 0:          
+                conv = torch.index_select(self.conv,0,idxDilate)                   
+                
+                # To maintain the gradient on dilated paras, the result of the convolution is multiplied by the mean value of the corresponding value of dilated paras
+                mul = torch.mean(torch.index_select(self.dilatedPara,0,idxDilate)[:,i])+1                                  
+                result = torch.cat((result
+                                ,mul * F.conv2d(data, conv, padding=dilation,dilation=dilation)),1)  
+
+        return result        
+
+    def forward(self, data):              
+
+        if self.training:      
+            return self.exeTrain(data) 
+        else:
+            return self.reference(data)              
 
 
 # Define Basic reconstruct Block
@@ -62,14 +120,14 @@ class BasicBlock(torch.nn.Module):
 
         self.conv_D = nn.Parameter(init.xavier_normal_(torch.Tensor(32, 3, 3, 3)))        
 
-        self.conv1_forward = ADConv(32,2)        
-        self.conv2_forward = ADConv(32,4)        
+        self.conv1_forward = ADConv(32,1)        
+        self.conv2_forward = ADConv(32,3)        
 
-        self.conv1_backward = ADConv(32,2)        
-        self.conv2_backward = ADConv(32,4)
+        self.conv1_backward = ADConv(32,1)        
+        self.conv2_backward = ADConv(32,3)
 
-        self.conv1_G = ADConv(32,2)    
-        self.conv2_G = ADConv(32,4)           
+        self.conv1_G = ADConv(32,1)    
+        self.conv2_G = ADConv(32,3)           
         self.conv3_G = nn.Parameter(init.xavier_normal_(torch.Tensor(3, 32, 3, 3)))
 
     def forward(self, xprev, x, preG, PhiWeight, PhiTWeight, PhiTb):
@@ -187,9 +245,11 @@ class OIDDN(torch.nn.Module):
         # Recovery-subnet
         layers_sym = []   # for computing symmetric loss        
         xprev = x
+        size = x.size()
+        G = torch.zeros([size[0], 32, size[2],size[3]], dtype=torch.float,device=device)
         for i in range(self.LayerNo):            
             
-            [x1, layer_sym] = self.fcs[i](xprev, x, PhiWeight, PhiTWeight, PhiTb)            
+            [x1, layer_sym,G] = self.fcs[i](xprev, x, G, PhiWeight, PhiTWeight, PhiTb)            
             xprev = x
             x=x1
 

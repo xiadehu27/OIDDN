@@ -12,21 +12,19 @@ from torch.nn import init
 import copy
 from skimage.measure import compare_ssim as ssim
 from argparse import ArgumentParser
-from utility_for_opinenet import *
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from skimage.metrics import peak_signal_noise_ratio
 from skimage.metrics import structural_similarity
-from OIDDN_def import OIDDN
+from OIDDN_Def import OIDDN
 
 parser = ArgumentParser(description='OPINE-Net-plus')
 
-parser.add_argument('--epoch_start', type=int, default=200, help='epoch number of model')
-parser.add_argument('--epoch_num', type=int, default=200, help='epoch number of model')
+parser.add_argument('--epoch_start', type=int, default=1, help='epoch number of model')
+parser.add_argument('--epoch_num', type=int, default=1, help='epoch number of model')
 parser.add_argument('--layer_num', type=int, default=9, help='phase number of OPINE-Net-plus') 
 parser.add_argument('--learning_rate', type=float, default=1e-4, help='learning rate')
-parser.add_argument('--group_num', type=int, default=1, help='group number for training')
-parser.add_argument('--cs_ratio', type=int, default=30, help='from {1, 4, 10, 25, 40, 50}')
+parser.add_argument('--cs_ratio', type=int, default=25, help='from {1, 4, 10, 25, 40, 50}')
 parser.add_argument('--gpu_list', type=str, default='1', help='gpu index')
 parser.add_argument('--block_size', type=str, default='32', help='basic block size of convolution')
 
@@ -34,8 +32,8 @@ parser.add_argument('--model_dir', type=str, default='model', help='trained or p
 parser.add_argument('--data_dir', type=str, default='data', help='training or test data directory')
 parser.add_argument('--log_dir', type=str, default='log', help='log directory')
 parser.add_argument('--result_dir', type=str, default='result', help='result directory')
-parser.add_argument('--test_name', type=str, default='SunHays80', help='name of test set')
-parser.add_argument('--net_name', type=str, default='OIDN', help='net name')
+parser.add_argument('--test_name', type=str, default='TestTime', help='name of test set')
+parser.add_argument('--net_name', type=str, default='OIDDN', help='net name')
 
 
 args = parser.parse_args()
@@ -45,7 +43,6 @@ epoch_start = args.epoch_start
 epoch_num = args.epoch_num
 learning_rate = args.learning_rate
 layer_num = args.layer_num
-group_num = args.group_num
 cs_ratio = args.cs_ratio
 gpu_list = args.gpu_list
 test_name = args.test_name
@@ -74,11 +71,12 @@ batch_size = 64
 model = OIDDN(layer_num, M,block_size)
 model = nn.DataParallel(model)
 model = model.to(device)
+model.eval()
 
 
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-model_dir = "./%s/%s_layer_%d_group_%d_ratio_%d" % (args.model_dir,net_name,layer_num, group_num, cs_ratio)
+model_dir = "./%s/%s_layer_%d_ratio_%d" % (args.model_dir,net_name,layer_num, cs_ratio)
 
 
 test_dir = os.path.join(args.data_dir, test_name)
@@ -145,7 +143,7 @@ with torch.no_grad():
 
 
             start = time()              
-            [output_x, x_loss,loss_layers_sym, initx_loss,loss_orth] = model(input_x)
+            [output_x, loss_layers_sym, phis] = model(input_x)
           
             end = time()                                       
 
