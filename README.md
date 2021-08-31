@@ -30,7 +30,7 @@ python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_ra
 python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 40
 python Train_OIDN.py --start_epoch 0 --end_epoch 200 --layer_num 9 --learning_rate 1e-4 --cs_ratio 50
 ```
-Pre-training models are available in the model directory with 8 resolutions of 0.01, 0.05, 0.1, 0.2, 0.25, 0.3, 0.4 and 0.5, which can be downloaded for direct testing and use.
+Pre-training models are available in the model directory with 8 sampling ratios of 0.01, 0.05, 0.1, 0.2, 0.25, 0.3, 0.4 and 0.5, which can be downloaded for direct testing and use.
 ```
 OIDN Model Testing
 ```
