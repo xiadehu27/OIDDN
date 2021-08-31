@@ -5,12 +5,14 @@ Image compressive sensing reconstruction methods are mainly divided into traditi
 ```
 Software Dependencies
 ```
+python 3.8.10<br>
 pytorch 1.9.0<br>
+CUDA 10.2<br>
 scipy 1.6.2<br>
 numpy 1.20.2<br>
-python 3.8.10<br>
 matplotlib 3.3.4<br>
 h5py 2.10.0<br>
+The code of this project was developed and tested in windows 10 environment, other environments were not tested.
 ```
 Generate sample data
 ```
