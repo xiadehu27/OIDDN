@@ -15,11 +15,11 @@ import matplotlib.pyplot as plt
 
 parser = ArgumentParser(description='OIDN')
 
-parser.add_argument('--start_epoch', type=int, default=0 ,help='epoch number of start training')
-parser.add_argument('--end_epoch', type=int, default=1, help='epoch number of end training')
+parser.add_argument('--start_epoch', type=int, default=27 ,help='epoch number of start training')
+parser.add_argument('--end_epoch', type=int, default=35, help='epoch number of end training')
 parser.add_argument('--layer_num', type=int, default=9, help='phase number of OIDN')
-parser.add_argument('--learning_rate', type=float, default=1e-4, help='learning rate')
-parser.add_argument('--cs_ratio', type=int, default=25, help='from {1, 4, 10, 25, 40, 50}')
+parser.add_argument('--learning_rate', type=float, default=1e-5, help='learning rate')
+parser.add_argument('--cs_ratio', type=int, default=1, help='from {1, 4, 10, 25, 40, 50}')
 parser.add_argument('--gpu_list', type=str, default='0', help='gpu index')
 parser.add_argument('--block_size', type=str, default='32', help='basic block size of convolution')
 
@@ -28,8 +28,8 @@ parser.add_argument('--data_dir', type=str, default='data', help='training data 
 parser.add_argument('--log_dir', type=str, default='log', help='log directory')
 parser.add_argument('--save_interval', type=int, default=1, help='interval of saving model')
 # Please replace the training set with the corresponding one when executing
-parser.add_argument('--dataset_name', type=str, default='py_5_96_1440_cf.hdf5', help='trained or pre-trained model name')
-parser.add_argument('--net_name', type=str, default='OIDDN', help='net name')
+parser.add_argument('--dataset_name', type=str, default='trainAll_96_rgb_128000.h5', help='trained or pre-trained model name')
+parser.add_argument('--net_name', type=str, default='OIDDN_withoutG', help='net name')
 
 
 args = parser.parse_args()
@@ -89,6 +89,7 @@ else:
     rand_loader = DataLoader(dataset=Dataset1, batch_size=batch_size, num_workers=0, shuffle=True)
 
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5,8], gamma=0.1, last_epoch=-1)
 
 model_dir = "./%s/%s_layer_%d_ratio_%d" % (args.model_dir,net_name,layer_num, cs_ratio)
 
@@ -137,10 +138,11 @@ for epoch_i in range(start_epoch+1, end_epoch+1):
 
         model_time = (time()-start) 
 
-        output_data = "[%02d/%02d] Discrepancy Loss: %.8f, Symmetry Loss: %.8f, Orth Loss: %.8f, time: %.4f" % (epoch_i, end_epoch, 
-            loss_discrepancy.item(), loss_symmetry.item(), loss_orth.item(), model_time)
+        output_data = "[%02d/%02d] Discrepancy Loss: %.6f, Symmetry Loss: %.6f, Orth Loss: %.6f, time: %.4f,lr:%.6f" % (epoch_i, end_epoch, 
+            loss_discrepancy.item(), loss_symmetry.item(), loss_orth.item(), model_time,optimizer.param_groups[0]['lr'])
         print(output_data)
 
+    scheduler.step()
     output_file = open(log_file_name, 'a')
     output_file.write(output_data)
     output_file.close()

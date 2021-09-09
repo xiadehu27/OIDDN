@@ -19,9 +19,9 @@ parser.add_argument('--start_epoch', type=int, default=0 ,help='epoch number of 
 parser.add_argument('--end_epoch', type=int, default=200, help='epoch number of end training')
 parser.add_argument('--layer_num', type=int, default=9, help='phase number of OIDN')
 parser.add_argument('--learning_rate', type=float, default=1e-4, help='learning rate')
-parser.add_argument('--cs_ratio', type=int, default=25, help='from {1, 4, 10, 25, 40, 50}')
+parser.add_argument('--cs_ratio', type=int, default=1, help='from {1, 4, 10, 25, 40, 50}')
 parser.add_argument('--gpu_list', type=str, default='0', help='gpu index')
-parser.add_argument('--block_size', type=str, default='33', help='basic block size of convolution')
+parser.add_argument('--block_size', type=str, default='32', help='basic block size of convolution')
 
 parser.add_argument('--model_dir', type=str, default='model', help='trained or pre-trained model directory')
 parser.add_argument('--data_dir', type=str, default='data', help='training data directory')
@@ -60,7 +60,7 @@ if N==1089:
 else:
     M = (int)(N * cs_ratio / 100)
 nrtrain = 88912   # number of training blocks
-batch_size = 64
+batch_size = 16
 
 Training_data_Name = dataset_name
 

@@ -130,7 +130,7 @@ class BasicBlock(torch.nn.Module):
         self.conv2_G = ADConv(32,3)           
         self.conv3_G = nn.Parameter(init.xavier_normal_(torch.Tensor(3, 32, 3, 3)))
 
-    def forward(self, xprev, x, preG, PhiWeight, PhiTWeight, PhiTb):
+    def forward(self, xprev, x, PhiWeight, PhiTWeight, PhiTb):
 
         tplus = (1+torch.sqrt(1+4*self.t*self.t))/2
         xi = (self.t-1)/tplus
@@ -146,8 +146,6 @@ class BasicBlock(torch.nn.Module):
         x_input = x
 
         x_D = F.conv2d(x_input, self.conv_D, padding=1)
-
-        x_D = x_D + preG * self.mergeGScale
         
         x = self.conv1_forward(x_D)
         x = F.relu(x)        
@@ -161,9 +159,7 @@ class BasicBlock(torch.nn.Module):
         x_backward = self.conv2_backward(x)
         
         x = self.conv1_G(F.relu(x_backward))        
-        x = self.conv2_G(F.relu(x))
-
-        G_before = x
+        x = self.conv2_G(F.relu(x))        
 
         x_G = F.conv2d(x, self.conv3_G, padding=1)
 
@@ -174,7 +170,7 @@ class BasicBlock(torch.nn.Module):
         x_D_est = self.conv2_backward(x)
         symloss = x_D_est - x_D
 
-        return [x_pred, symloss,G_before]
+        return [x_pred, symloss]
 
 
 # Define OIDDN
@@ -246,10 +242,9 @@ class OIDDN(torch.nn.Module):
         layers_sym = []   # for computing symmetric loss        
         xprev = x
         size = x.size()
-        G = torch.zeros([size[0], 32, size[2],size[3]], dtype=torch.float,device=device)
         for i in range(self.LayerNo):            
             
-            [x1, layer_sym,G] = self.fcs[i](xprev, x, G, PhiWeight, PhiTWeight, PhiTb)            
+            [x1, layer_sym] = self.fcs[i](xprev, x, PhiWeight, PhiTWeight, PhiTb)            
             xprev = x
             x=x1
 

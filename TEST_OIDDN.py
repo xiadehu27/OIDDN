@@ -20,11 +20,11 @@ from OIDDN_Def import OIDDN
 
 parser = ArgumentParser(description='OPINE-Net-plus')
 
-parser.add_argument('--epoch_start', type=int, default=1, help='epoch number of model')
-parser.add_argument('--epoch_num', type=int, default=1, help='epoch number of model')
+parser.add_argument('--epoch_start', type=int, default=27, help='epoch number of model')
+parser.add_argument('--epoch_num', type=int, default=35, help='epoch number of model')
 parser.add_argument('--layer_num', type=int, default=9, help='phase number of OPINE-Net-plus') 
 parser.add_argument('--learning_rate', type=float, default=1e-4, help='learning rate')
-parser.add_argument('--cs_ratio', type=int, default=25, help='from {1, 4, 10, 25, 40, 50}')
+parser.add_argument('--cs_ratio', type=int, default=1, help='from {1, 4, 10, 25, 40, 50}')
 parser.add_argument('--gpu_list', type=str, default='1', help='gpu index')
 parser.add_argument('--block_size', type=str, default='32', help='basic block size of convolution')
 
@@ -32,8 +32,8 @@ parser.add_argument('--model_dir', type=str, default='model', help='trained or p
 parser.add_argument('--data_dir', type=str, default='data', help='training or test data directory')
 parser.add_argument('--log_dir', type=str, default='log', help='log directory')
 parser.add_argument('--result_dir', type=str, default='result', help='result directory')
-parser.add_argument('--test_name', type=str, default='TestTime', help='name of test set')
-parser.add_argument('--net_name', type=str, default='OIDDN', help='net name')
+parser.add_argument('--test_name', type=str, default='Set5', help='name of test set')
+parser.add_argument('--net_name', type=str, default='OIDDN_withoutG', help='net name')
 
 
 args = parser.parse_args()
@@ -71,7 +71,7 @@ batch_size = 64
 model = OIDDN(layer_num, M,block_size)
 model = nn.DataParallel(model)
 model = model.to(device)
-model.eval()
+# model.eval()
 
 
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
