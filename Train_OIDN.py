@@ -10,7 +10,7 @@ from torch.utils.data import Dataset, DataLoader
 import platform
 from argparse import ArgumentParser
 from DeephomographyDataset import DeephomographyDataset
-from OIDN_Def import OIDN
+from OIDN_Def_ShareMatrix import OIDN
 import matplotlib.pyplot as plt
 
 parser = ArgumentParser(description='OIDN')
@@ -19,7 +19,7 @@ parser.add_argument('--start_epoch', type=int, default=0 ,help='epoch number of 
 parser.add_argument('--end_epoch', type=int, default=200, help='epoch number of end training')
 parser.add_argument('--layer_num', type=int, default=9, help='phase number of OIDN')
 parser.add_argument('--learning_rate', type=float, default=1e-4, help='learning rate')
-parser.add_argument('--cs_ratio', type=int, default=1, help='from {1, 4, 10, 25, 40, 50}')
+parser.add_argument('--cs_ratio', type=int, default=25, help='from {1, 4, 10, 25, 40, 50}')
 parser.add_argument('--gpu_list', type=str, default='0', help='gpu index')
 parser.add_argument('--block_size', type=str, default='32', help='basic block size of convolution')
 
@@ -28,7 +28,7 @@ parser.add_argument('--data_dir', type=str, default='data', help='training data 
 parser.add_argument('--log_dir', type=str, default='log', help='log directory')
 parser.add_argument('--save_interval', type=int, default=1, help='interval of saving model')
 # Please replace the training set with the corresponding one when executing
-parser.add_argument('--dataset_name', type=str, default='py_5_96_1440_cf.hdf5', help='trained or pre-trained model name')
+parser.add_argument('--dataset_name', type=str, default='trainAll_96_rgb_128000.h5', help='trained or pre-trained model name')
 parser.add_argument('--net_name', type=str, default='OIDN', help='net name')
 
 

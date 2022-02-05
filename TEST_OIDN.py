@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from skimage.metrics import peak_signal_noise_ratio
 from skimage.metrics import structural_similarity
-from OIDN_Def import OIDN
+from OIDN_Def_ShareMatrix import OIDN
 
 parser = ArgumentParser(description='OPINE-Net-plus')
 
@@ -32,8 +32,8 @@ parser.add_argument('--model_dir', type=str, default='model', help='trained or p
 parser.add_argument('--data_dir', type=str, default='data', help='training or test data directory')
 parser.add_argument('--log_dir', type=str, default='log', help='log directory')
 parser.add_argument('--result_dir', type=str, default='result', help='result directory')
-parser.add_argument('--test_name', type=str, default='TestTime', help='name of test set')
-parser.add_argument('--net_name', type=str, default='OIDN', help='net name')
+parser.add_argument('--test_name', type=str, default='Set5', help='name of test set')
+parser.add_argument('--net_name', type=str, default='OIDN_Def_ShareMatrix', help='net name')
 
 
 args = parser.parse_args()
@@ -167,8 +167,7 @@ with torch.no_grad():
 
             rec_PSNR = peak_signal_noise_ratio(X_rgb, Img,data_range=255)           
             rec_SSIM = structural_similarity(X_rgb, Img,data_range=255,multichannel=True)    
-
-            print(rec_PSNR)                 
+            
 
             if epoch_loop_no == epoch_num:
                 resultName = imgName.replace(os.path.join(args.data_dir, test_name), result_dir)            
