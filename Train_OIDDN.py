@@ -13,7 +13,7 @@ from DeephomographyDataset import DeephomographyDataset
 from OIDDN_Def import OIDDN
 import matplotlib.pyplot as plt
 
-parser = ArgumentParser(description='OIDN')
+parser = ArgumentParser(description='OIDDN')
 
 parser.add_argument('--start_epoch', type=int, default=0 ,help='epoch number of start training')
 parser.add_argument('--end_epoch', type=int, default=200, help='epoch number of end training')

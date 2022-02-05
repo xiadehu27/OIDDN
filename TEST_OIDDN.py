@@ -18,11 +18,11 @@ from skimage.metrics import peak_signal_noise_ratio
 from skimage.metrics import structural_similarity
 from OIDDN_Def import OIDDN
 
-parser = ArgumentParser(description='OPINE-Net-plus')
+parser = ArgumentParser(description='OIDDN')
 
 parser.add_argument('--epoch_start', type=int, default=200, help='epoch number of model')
 parser.add_argument('--epoch_num', type=int, default=200, help='epoch number of model')
-parser.add_argument('--layer_num', type=int, default=9, help='phase number of OPINE-Net-plus') 
+parser.add_argument('--layer_num', type=int, default=9, help='phase number of OIDDN') 
 parser.add_argument('--learning_rate', type=float, default=1e-4, help='learning rate')
 parser.add_argument('--cs_ratio', type=int, default=25, help='from {1, 4, 10, 25, 40, 50}')
 parser.add_argument('--gpu_list', type=str, default='1', help='gpu index')
